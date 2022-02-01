@@ -1,6 +1,7 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
+import 'package:github_api_consumer/features/github/domain/usecases/get_all_issues.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,9 @@ import 'features/github/data/repositories/github_repository_impl.dart';
 final injector = GetIt.instance;
 
 Future<void> init() async {
+  // Use cases
+  injector.registerLazySingleton(() => GetAllIssues(injector()));
+
   // Repository
   injector.registerLazySingleton<GithubRepository>(
     () => GithubRepositoryImpl(
