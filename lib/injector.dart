@@ -1,8 +1,8 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
 import 'package:github_api_consumer/features/github/domain/usecases/get_all_issues.dart';
 import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
@@ -37,5 +37,5 @@ Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   injector.registerLazySingleton(() => sharedPreferences);
   injector.registerLazySingleton(() => http.Client());
-  injector.registerLazySingleton(() => DataConnectionChecker());
+  injector.registerLazySingleton(() => InternetConnectionChecker());
 }

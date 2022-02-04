@@ -1,0 +1,94 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz.dart';
+import 'package:github_api_consumer/core/error/exceptions.dart';
+import 'package:github_api_consumer/core/error/failures.dart';
+import 'package:github_api_consumer/core/network/network_info.dart';
+import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
+import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
+import 'package:github_api_consumer/features/github/data/repositories/github_repository_impl.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import '../../../../fixtures/fixture_reader.dart';
+import 'github_repository_impl_test.mocks.dart';
+
+@GenerateMocks([NetworkInfo, GithubRemoteDataSource])
+void main() {
+  MockNetworkInfo mockNetworkInfo = MockNetworkInfo();
+  MockGithubRemoteDataSource mockRemoteDataSource =
+      MockGithubRemoteDataSource();
+  GithubRepositoryImpl repository = GithubRepositoryImpl(
+      remoteDataSource: mockRemoteDataSource, networkInfo: mockNetworkInfo);
+
+  void runTestsOnline(Function body) {
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isInternetAvailable).thenAnswer((_) async => true);
+      });
+
+      body();
+    });
+  }
+
+  void runTestsOffline(Function body) {
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isInternetAvailable).thenAnswer((_) async => false);
+      });
+
+      body();
+    });
+  }
+
+  group('getAllIssues', () {
+    Iterable issues = json.decode(fixture('issues.json'));
+    final issuesList =
+    issues.map((model) => IssueModel.fromJson(model)).toList();
+
+    test(
+      'should check if the device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.isInternetAvailable).thenAnswer((_) async => true);
+        when(mockRemoteDataSource.getAllIssues())
+            .thenAnswer((_) async => issuesList);
+        // act
+        repository.getAllIssues();
+        // assert
+        verify(mockNetworkInfo.isInternetAvailable);
+      },
+    );
+
+    runTestsOnline(() {
+      test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.getAllIssues())
+              .thenAnswer((_) async => issuesList);
+          // act
+          final result = await repository.getAllIssues();
+          // assert
+          verify(mockRemoteDataSource.getAllIssues());
+          expect(result, equals(Right(issuesList)));
+        },
+      );
+
+      test(
+        'should return server failure when the call to remote data source is unsuccessful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.getAllIssues())
+              .thenThrow(ServerException());
+          // act
+          final result = await repository.getAllIssues();
+          // assert
+          verify(mockRemoteDataSource.getAllIssues());
+          expect(result, equals(Left(ServerFailure())));
+        },
+      );
+    });
+  });
+}
