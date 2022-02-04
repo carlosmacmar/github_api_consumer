@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
     final response = await client.get(
       Uri.parse(url),
       headers: {
-        'Content-Type': 'application/json',
+        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
       },
     );
 

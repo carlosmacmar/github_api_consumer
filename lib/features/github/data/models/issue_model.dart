@@ -46,10 +46,10 @@ class IssueModel extends Issue {
       user: json['user'] != null ? new UserModel.fromJson(json['user']) : null,
       state: json['state'],
       comments: json['comments'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      closedAt: json['closed_at'],
-      body: json['body'],
+      createdAt: json['created_at'] ?? '',
+      updatedAt: json['updated_at'] ?? '',
+      closedAt: json['closed_at'] ?? '',
+      body: json['body'] ?? '',
     );
   }
 
