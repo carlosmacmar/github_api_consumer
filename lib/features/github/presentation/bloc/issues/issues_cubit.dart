@@ -10,19 +10,32 @@ part 'issues_state.dart';
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 
 class IssuesCubit extends Cubit<IssuesState> {
-  IssuesCubit({required this.getAllIssuesUseCase}) : super(IssuesInitial()) {
-    getAllIssues();
-  }
+  IssuesCubit({required this.getAllIssuesUseCase}) : super(IssuesInitial());
 
+  int page = 1;
   final GetAllIssues getAllIssuesUseCase;
 
   void getAllIssues() async {
     try {
-      emit(IssuesLoading());
+      if(state is IssuesLoading) return;
+
+      var oldIssuesList = <Issue>[];
+
+      final currentState = state;
+      if(currentState is IssuesLoaded) {
+        oldIssuesList = currentState.issuesList;
+      }
+
+      emit(IssuesLoading(oldIssuesList, isFirstFetch: page == 1));
       final failureOrIssues = await getAllIssuesUseCase.call(NoParams());
       failureOrIssues.fold(
         (failure) => emit(IssuesError(_mapFailureToMessage(failure))),
-        (issuesList) => emit(IssuesLoaded(issuesList)),
+        (newIssues) {
+          page++;
+          final issues = (state as IssuesLoading).oldIssuesList;
+          issues.addAll(newIssues);
+          emit(IssuesLoaded(issues));
+        },
       );
     } catch (e) {
       emit(IssuesError('Unknown Error'));

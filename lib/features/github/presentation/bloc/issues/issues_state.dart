@@ -10,8 +10,13 @@ class IssuesInitial extends IssuesState {
 }
 
 class IssuesLoading extends IssuesState {
+  IssuesLoading(this.oldIssuesList, {this.isFirstFetch=false});
+
+  final List<Issue> oldIssuesList;
+  final bool isFirstFetch;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [oldIssuesList, {isFirstFetch}];
 }
 
 class IssuesLoaded extends IssuesState {
