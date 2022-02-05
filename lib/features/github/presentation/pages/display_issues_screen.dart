@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
 import 'package:github_api_consumer/features/github/presentation/bloc/issues/issues_cubit.dart';
+import 'package:github_api_consumer/features/github/presentation/pages/issue_detail_page.dart';
 
 class DisplayIssuesScreen extends StatelessWidget {
   final scrollController = ScrollController();
@@ -47,7 +48,7 @@ class DisplayIssuesScreen extends StatelessWidget {
         issues = state.issuesList;
       }
 
-      return ListView.separated(
+      return ListView.builder(
         controller: scrollController,
         itemBuilder: (context, index) {
           if (index < issues.length)
@@ -59,11 +60,6 @@ class DisplayIssuesScreen extends StatelessWidget {
             });
             return _loadingIndicator();
           }
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: Colors.grey[400],
-          );
         },
         itemCount: issues.length + (isLoading ? 1 : 0),
       );
@@ -78,20 +74,19 @@ class DisplayIssuesScreen extends StatelessWidget {
   }
 
   Widget _issue(Issue issue, BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "${issue.title}",
-            style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Card(
+      child: ListTile(
+        title: Text(
+          "${issue.title}",
+          style: TextStyle(
+              fontSize: 15.0, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => IssueDetailPage(
+                    issue: issue,
+                  )));
+        },
       ),
     );
   }
