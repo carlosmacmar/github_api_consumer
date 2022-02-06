@@ -21,7 +21,7 @@ class GithubApp extends StatelessWidget {
       theme: ThemeData.dark(),
       home: BlocProvider<IssuesCubit>(
         create: (context) => IssuesCubit(
-          getAllIssuesUseCase: di.injector<GetAllIssues>(),
+          getIssuesUseCase: di.injector<GetIssues>(),
         ),
         child: DisplayIssuesScreen(),
       ),
@@ -38,7 +38,7 @@ class IssuesBlocObserver extends BlocObserver {
 
   @override
   void onChange(BlocBase bloc, Change change) {
-    print(change);
+    // print(change);
     super.onChange(bloc, change);
   }
 

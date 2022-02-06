@@ -16,12 +16,12 @@ Future<void> init() async {
   // Bloc
   injector.registerFactory(
         () => IssuesCubit(
-      getAllIssuesUseCase: injector()
+      getIssuesUseCase: injector()
     ),
   );
 
   // Use cases
-  injector.registerLazySingleton(() => GetAllIssues(injector()));
+  injector.registerLazySingleton(() => GetIssues(injector()));
 
   // Repository
   injector.registerLazySingleton<GithubRepository>(

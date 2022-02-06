@@ -47,7 +47,7 @@ void main() {
     ));
   }
 
-  group('getAllIssues', () {
+  group('getIssues', () {
     Iterable issues = json.decode(fixture('issues.json'));
     final issuesList =
         issues.map((model) => IssueModel.fromJson(model)).toList();
@@ -59,7 +59,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getAllIssues();
+        dataSource.getIssues();
         // assert
         verify(mockHttpClient.get(
           Uri.parse('https://api.github.com/repos/flutter/flutter/issues'),
@@ -76,7 +76,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getAllIssues();
+        final result = await dataSource.getIssues();
         // assert
         expect(result, equals(issuesList));
       },
@@ -88,7 +88,7 @@ void main() {
         // arrange
         setUpMockHttpClientFailure404();
         // act
-        final call = dataSource.getAllIssues();
+        final call = dataSource.getIssues();
         // assert
         expect(() => call, throwsA(TypeMatcher<ServerException>()));
       },

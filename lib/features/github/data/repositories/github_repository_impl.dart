@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
@@ -19,14 +20,14 @@ class GithubRepositoryImpl implements GithubRepository {
   });
 
   @override
-  Future<Either<Failure, List<Issue>>> getAllIssues() async {
-    return await _getAllIssues();
+  Future<Either<Failure, List<Issue>>> getIssues(int page, FilterState filterState, SortOption sortOption) async {
+    return await _getIssues(page, filterState, sortOption);
   }
 
-  Future<Either<Failure, List<Issue>>> _getAllIssues() async {
+  Future<Either<Failure, List<Issue>>> _getIssues(int page, FilterState filterState, SortOption sortOption) async {
     if (await networkInfo.isInternetAvailable) {
       try {
-        final remoteIssues = await remoteDataSource.getAllIssues();
+        final remoteIssues = await remoteDataSource.getIssues(page, filterState, sortOption);
         // localDataSource.cacheIssues(remoteIssues);
         return Right(remoteIssues);
       } on ServerException {

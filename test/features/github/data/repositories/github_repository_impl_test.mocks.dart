@@ -44,8 +44,8 @@ class MockGithubRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i5.IssueModel>> getAllIssues() => (super.noSuchMethod(
-          Invocation.method(#getAllIssues, []),
+  _i3.Future<List<_i5.IssueModel>> getIssues() => (super.noSuchMethod(
+          Invocation.method(#getIssues, []),
           returnValue: Future<List<_i5.IssueModel>>.value(<_i5.IssueModel>[]))
       as _i3.Future<List<_i5.IssueModel>>);
 }

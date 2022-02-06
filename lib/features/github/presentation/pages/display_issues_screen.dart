@@ -13,7 +13,7 @@ class DisplayIssuesScreen extends StatelessWidget {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          BlocProvider.of<IssuesCubit>(context).getAllIssues();
+          BlocProvider.of<IssuesCubit>(context).getIssues();
         }
       }
     });
@@ -22,7 +22,7 @@ class DisplayIssuesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     setupScrollController(context);
-    BlocProvider.of<IssuesCubit>(context).getAllIssues();
+    BlocProvider.of<IssuesCubit>(context).getIssues();
 
     return Scaffold(
       appBar: AppBar(

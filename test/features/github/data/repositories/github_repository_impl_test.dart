@@ -42,7 +42,7 @@ void main() {
     });
   }
 
-  group('getAllIssues', () {
+  group('getIssues', () {
     Iterable issues = json.decode(fixture('issues.json'));
     final issuesList =
     issues.map((model) => IssueModel.fromJson(model)).toList();
@@ -52,10 +52,10 @@ void main() {
       () async {
         // arrange
         when(mockNetworkInfo.isInternetAvailable).thenAnswer((_) async => true);
-        when(mockRemoteDataSource.getAllIssues())
+        when(mockRemoteDataSource.getIssues())
             .thenAnswer((_) async => issuesList);
         // act
-        repository.getAllIssues();
+        repository.getIssues();
         // assert
         verify(mockNetworkInfo.isInternetAvailable);
       },
@@ -66,12 +66,12 @@ void main() {
         'should return remote data when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getAllIssues())
+          when(mockRemoteDataSource.getIssues())
               .thenAnswer((_) async => issuesList);
           // act
-          final result = await repository.getAllIssues();
+          final result = await repository.getIssues();
           // assert
-          verify(mockRemoteDataSource.getAllIssues());
+          verify(mockRemoteDataSource.getIssues());
           expect(result, equals(Right(issuesList)));
         },
       );
@@ -80,12 +80,12 @@ void main() {
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getAllIssues())
+          when(mockRemoteDataSource.getIssues())
               .thenThrow(ServerException());
           // act
-          final result = await repository.getAllIssues();
+          final result = await repository.getIssues();
           // assert
-          verify(mockRemoteDataSource.getAllIssues());
+          verify(mockRemoteDataSource.getIssues());
           expect(result, equals(Left(ServerFailure())));
         },
       );

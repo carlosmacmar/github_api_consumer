@@ -15,7 +15,7 @@ import 'get_all_issues_test.mocks.dart';
 @GenerateMocks([GithubRepository])
 void main() {
   MockGithubRepository mockGithubRepository = MockGithubRepository();
-  GetAllIssues getAllIssuesUsecase = GetAllIssues(mockGithubRepository);
+  GetIssues getIssuesUsecase = GetIssues(mockGithubRepository);
 
   Iterable issues = json.decode(fixture('issues.json'));
   final issuesList =
@@ -25,13 +25,13 @@ void main() {
     'should get list of issues from the repository',
         () async {
       // arrange
-      when(mockGithubRepository.getAllIssues())
+      when(mockGithubRepository.getIssues())
           .thenAnswer((_) async => Right(issuesList));
       // act
-      final result = await getAllIssuesUsecase(NoParams());
+      final result = await getIssuesUsecase(NoParams());
       // assert
       expect(result, Right(issuesList));
-      verify(mockGithubRepository.getAllIssues());
+      verify(mockGithubRepository.getIssues());
       verifyNoMoreInteractions(mockGithubRepository);
     },
   );

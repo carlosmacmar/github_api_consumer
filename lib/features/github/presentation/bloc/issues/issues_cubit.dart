@@ -10,12 +10,12 @@ part 'issues_state.dart';
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 
 class IssuesCubit extends Cubit<IssuesState> {
-  IssuesCubit({required this.getAllIssuesUseCase}) : super(IssuesInitial());
+  IssuesCubit({required this.getIssuesUseCase}) : super(IssuesInitial());
 
   int page = 1;
-  final GetAllIssues getAllIssuesUseCase;
+  final GetIssues getIssuesUseCase;
 
-  void getAllIssues() async {
+  void getIssues() async {
     try {
       if(state is IssuesLoading) return;
 
@@ -27,7 +27,7 @@ class IssuesCubit extends Cubit<IssuesState> {
       }
 
       emit(IssuesLoading(oldIssuesList, isFirstFetch: page == 1));
-      final failureOrIssues = await getAllIssuesUseCase.call(NoParams());
+      final failureOrIssues = await getIssuesUseCase.call(Params(page));
       failureOrIssues.fold(
         (failure) => emit(IssuesError(_mapFailureToMessage(failure))),
         (newIssues) {

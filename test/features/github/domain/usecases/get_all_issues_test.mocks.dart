@@ -32,8 +32,8 @@ class MockGithubRepository extends _i1.Mock implements _i3.GithubRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Issue>>> getAllIssues() =>
-      (super.noSuchMethod(Invocation.method(#getAllIssues, []),
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Issue>>> getIssues() =>
+      (super.noSuchMethod(Invocation.method(#getIssues, []),
           returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Issue>>>.value(
               _FakeEither_0<_i5.Failure, List<_i6.Issue>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Issue>>>);

@@ -1,17 +1,34 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+import 'package:github_api_consumer/core/util/enums.dart';
+import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 
-class GetAllIssues implements UseCase<List<Issue>, NoParams> {
+class GetIssues implements UseCase<List<Issue>, Params> {
   final GithubRepository repository;
 
-  GetAllIssues(this.repository);
+  GetIssues(this.repository);
 
   @override
-  Future<Either<Failure, List<Issue>>> call(NoParams params) async {
-    return await repository.getAllIssues();
+  Future<Either<Failure, List<Issue>>> call(Params params) async {
+    return await repository.getIssues(
+        params.page, params.filterState, params.sortOption);
   }
+}
+
+class Params extends Equatable {
+  final int page;
+  final FilterState filterState;
+  final SortOption sortOption;
+
+  Params(this.page,
+      {this.filterState = FilterState.all,
+      this.sortOption = SortOption.created});
+
+  @override
+  List<Object> get props => [page];
 }
