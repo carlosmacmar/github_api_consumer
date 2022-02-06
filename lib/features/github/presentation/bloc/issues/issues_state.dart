@@ -20,7 +20,7 @@ class IssuesLoading extends IssuesState {
 }
 
 class IssuesLoaded extends IssuesState {
-  IssuesLoaded(this.issuesList);
+  const IssuesLoaded(this.issuesList);
 
   final List<Issue> issuesList;
 

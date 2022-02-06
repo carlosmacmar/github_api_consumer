@@ -34,6 +34,7 @@ class IssueModel extends Issue {
           updatedAt: updatedAt,
           closedAt: closedAt,
           body: body,
+          visited: false,
         );
 
   factory IssueModel.fromJson(Map<String, dynamic> json) {

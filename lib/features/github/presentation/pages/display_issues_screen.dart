@@ -126,9 +126,10 @@ class DisplayIssuesScreen extends StatelessWidget {
         title: Text(
           "${issue.title}",
           style: TextStyle(
-              fontSize: 15.0, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 15.0, color: issue.visited ? Colors.grey : Colors.white, fontWeight: FontWeight.bold),
         ),
         onTap: () {
+          BlocProvider.of<IssuesCubit>(context).setVisited(issue);
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => IssueDetailPage(
                     issue: issue,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:github_api_consumer/core/error/failures.dart';
@@ -14,6 +16,8 @@ class IssuesCubit extends Cubit<IssuesState> {
   IssuesCubit({required this.getIssuesUseCase}) : super(IssuesInitial());
 
   int _page = 1;
+  var _visitedIssuesList = <Issue>[];
+  var _currentIssuesList = <Issue>[];
   FilterState _currentFilterState = FilterState.open;
   SortOption _currentSortOption = SortOption.created;
   final GetIssues getIssuesUseCase;
@@ -23,6 +27,7 @@ class IssuesCubit extends Cubit<IssuesState> {
       if(state is IssuesLoading) return;
 
       var oldIssuesList = <Issue>[];
+      if(_page == 1) _currentIssuesList.clear();
 
       final currentState = state;
       if(currentState is IssuesLoaded) {
@@ -37,6 +42,14 @@ class IssuesCubit extends Cubit<IssuesState> {
           _page++;
           final issues = (state as IssuesLoading).oldIssuesList;
           issues.addAll(newIssues);
+          _visitedIssuesList.forEach((visitedIssue) {
+            issues.forEach((issue) {
+              if(issue.id == visitedIssue.id){
+                issue.visited = true;
+              }
+            });
+          });
+          _currentIssuesList = issues;
           emit(IssuesLoaded(issues));
         },
       );
@@ -57,6 +70,17 @@ class IssuesCubit extends Cubit<IssuesState> {
     _page = 1;
     emit(IssuesInitial());
     getIssues();
+  }
+
+  void setVisited(Issue issue){
+    _currentIssuesList.forEach((element) {
+      if(element.id == issue.id) {
+        element.visited = true;
+        _visitedIssuesList.add(element);
+      }
+    });
+    emit(IssuesInitial());
+    emit(IssuesLoaded(_currentIssuesList));
   }
 
   String _mapFailureToMessage(Failure failure) {

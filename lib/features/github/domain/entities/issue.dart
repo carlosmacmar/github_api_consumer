@@ -15,20 +15,23 @@ class Issue extends Equatable {
   final String updatedAt;
   final String closedAt;
   final String body;
+  bool visited;
 
   Issue({
-      required this.url,
-      required this.htmlUrl,
-      required this.id,
-      required this.number,
-      required this.title,
-      required this.user,
-      required this.state,
-      required this.comments,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.closedAt,
-      required this.body});
+    required this.url,
+    required this.htmlUrl,
+    required this.id,
+    required this.number,
+    required this.title,
+    required this.user,
+    required this.state,
+    required this.comments,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.closedAt,
+    required this.body,
+    required this.visited,
+  });
 
   @override
   List<Object> get props => [
@@ -43,6 +46,7 @@ class Issue extends Equatable {
         createdAt,
         updatedAt,
         closedAt,
-        body
+        body,
+        visited,
       ];
 }
