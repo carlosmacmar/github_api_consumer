@@ -5,6 +5,7 @@
 import 'dart:async' as _i3;
 
 import 'package:github_api_consumer/core/network/network_info.dart' as _i2;
+import 'package:github_api_consumer/core/util/enums.dart' as _i6;
 import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart'
     as _i4;
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart'
@@ -44,8 +45,11 @@ class MockGithubRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i5.IssueModel>> getIssues() => (super.noSuchMethod(
-          Invocation.method(#getIssues, []),
-          returnValue: Future<List<_i5.IssueModel>>.value(<_i5.IssueModel>[]))
-      as _i3.Future<List<_i5.IssueModel>>);
+  _i3.Future<List<_i5.IssueModel>> getIssues(int? page,
+          _i6.FilterState? filterState, _i6.SortOption? sortOption) =>
+      (super.noSuchMethod(
+              Invocation.method(#getIssues, [page, filterState, sortOption]),
+              returnValue:
+                  Future<List<_i5.IssueModel>>.value(<_i5.IssueModel>[]))
+          as _i3.Future<List<_i5.IssueModel>>);
 }

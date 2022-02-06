@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:github_api_consumer/core/error/exceptions.dart';
+import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
 import 'package:mockito/annotations.dart';
@@ -19,7 +20,7 @@ void main() {
 
   void setUpMockHttpClientSuccess200() {
     when(mockHttpClient.get(
-      Uri.parse('https://api.github.com/repos/flutter/flutter/issues'),
+      Uri.parse('https://api.github.com/repos/flutter/flutter/issues?page=1&per_page=30&state=open&sort=created'),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
       },
@@ -34,7 +35,7 @@ void main() {
 
   void setUpMockHttpClientFailure404() {
     when(mockHttpClient.get(
-      Uri.parse('https://api.github.com/repos/flutter/flutter/issues'),
+      Uri.parse('https://api.github.com/repos/flutter/flutter/issues?page=1&per_page=30&state=open&sort=created'),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
       },
@@ -59,10 +60,10 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getIssues();
+        dataSource.getIssues(1, FilterState.open, SortOption.created);
         // assert
         verify(mockHttpClient.get(
-          Uri.parse('https://api.github.com/repos/flutter/flutter/issues'),
+          Uri.parse('https://api.github.com/repos/flutter/flutter/issues?page=1&per_page=30&state=open&sort=created'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
           },
@@ -76,7 +77,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getIssues();
+        final result = await dataSource.getIssues(1, FilterState.open, SortOption.created);
         // assert
         expect(result, equals(issuesList));
       },
@@ -88,7 +89,7 @@ void main() {
         // arrange
         setUpMockHttpClientFailure404();
         // act
-        final call = dataSource.getIssues();
+        final call = dataSource.getIssues(1, FilterState.open, SortOption.created);
         // assert
         expect(() => call, throwsA(TypeMatcher<ServerException>()));
       },

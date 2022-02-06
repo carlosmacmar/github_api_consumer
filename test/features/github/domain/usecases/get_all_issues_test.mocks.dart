@@ -6,6 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:github_api_consumer/core/error/failures.dart' as _i5;
+import 'package:github_api_consumer/core/util/enums.dart' as _i7;
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart'
     as _i6;
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart'
@@ -32,8 +33,10 @@ class MockGithubRepository extends _i1.Mock implements _i3.GithubRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Issue>>> getIssues() =>
-      (super.noSuchMethod(Invocation.method(#getIssues, []),
+  _i4.Future<_i2.Either<_i5.Failure, List<_i6.Issue>>> getIssues(int? page,
+          _i7.FilterState? filterState, _i7.SortOption? sortOption) =>
+      (super.noSuchMethod(
+          Invocation.method(#getIssues, [page, filterState, sortOption]),
           returnValue: Future<_i2.Either<_i5.Failure, List<_i6.Issue>>>.value(
               _FakeEither_0<_i5.Failure, List<_i6.Issue>>())) as _i4
           .Future<_i2.Either<_i5.Failure, List<_i6.Issue>>>);
