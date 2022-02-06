@@ -25,9 +25,11 @@ class Params extends Equatable {
   final FilterState filterState;
   final SortOption sortOption;
 
-  Params(this.page,
-      {this.filterState = FilterState.all,
-      this.sortOption = SortOption.created});
+  Params(
+    this.page,
+    this.filterState,
+    this.sortOption,
+  );
 
   @override
   List<Object> get props => [page];

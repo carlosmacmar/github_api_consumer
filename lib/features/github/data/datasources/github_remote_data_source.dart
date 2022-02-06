@@ -24,7 +24,7 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
   Future<List<IssueModel>> getIssues(
           int page, FilterState filterState, SortOption sortOption) =>
       _getIssuesFromUrl(
-          'https://api.github.com/repos/flutter/flutter/issues?q=page=$page&per_page=30&state=${filterState.toShortString()}&sort=${sortOption.toShortString()}');
+          'https://api.github.com/repos/flutter/flutter/issues?page=$page&per_page=30&state=${filterState.toShortString()}&sort=${sortOption.toShortString()}');
 
   Future<List<IssueModel>> _getIssuesFromUrl(String url) async {
     print('URL = $url');

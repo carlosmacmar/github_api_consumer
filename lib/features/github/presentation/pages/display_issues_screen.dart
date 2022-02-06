@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
 import 'package:github_api_consumer/features/github/presentation/bloc/issues/issues_cubit.dart';
 import 'package:github_api_consumer/features/github/presentation/pages/issue_detail_page.dart';
+import 'package:github_api_consumer/features/github/presentation/widgets/FilterDropdownWidget.dart';
+import 'package:github_api_consumer/features/github/presentation/widgets/SortDropdownWidget.dart';
 
 class DisplayIssuesScreen extends StatelessWidget {
   final scrollController = ScrollController();
@@ -28,7 +30,50 @@ class DisplayIssuesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Issues List"),
       ),
-      body: _issueList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Filter state: ',
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        FilterDropdownWidget(),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Sort option: ',
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        SortDropdownWidget(),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          _issueList(),
+        ],
+      ),
     );
   }
 
@@ -48,20 +93,22 @@ class DisplayIssuesScreen extends StatelessWidget {
         issues = state.issuesList;
       }
 
-      return ListView.builder(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          if (index < issues.length)
-            return _issue(issues[index], context);
-          else {
-            Timer(Duration(milliseconds: 30), () {
-              scrollController
-                  .jumpTo(scrollController.position.maxScrollExtent);
-            });
-            return _loadingIndicator();
-          }
-        },
-        itemCount: issues.length + (isLoading ? 1 : 0),
+      return Expanded(
+        child: ListView.builder(
+          controller: scrollController,
+          itemBuilder: (context, index) {
+            if (index < issues.length)
+              return _issue(issues[index], context);
+            else {
+              Timer(Duration(milliseconds: 30), () {
+                scrollController
+                    .jumpTo(scrollController.position.maxScrollExtent);
+              });
+              return _loadingIndicator();
+            }
+          },
+          itemCount: issues.length + (isLoading ? 1 : 0),
+        ),
       );
     });
   }

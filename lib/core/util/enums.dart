@@ -7,7 +7,7 @@ enum FilterState {
 enum SortOption {
   created,
   updated,
-  comments,
+  comment,
 }
 
 extension ParseToStringFilter on FilterState {
