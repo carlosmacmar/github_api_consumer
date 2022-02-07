@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:github_api_consumer/core/usecases/usecase.dart';
+import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
 import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
 import 'package:github_api_consumer/features/github/domain/usecases/get_all_issues.dart';
@@ -25,13 +26,13 @@ void main() {
     'should get list of issues from the repository',
         () async {
       // arrange
-      when(mockGithubRepository.getIssues())
+      when(mockGithubRepository.getIssues(1, FilterState.open, SortOption.created))
           .thenAnswer((_) async => Right(issuesList));
       // act
-      final result = await getIssuesUsecase(NoParams());
+      final result = await getIssuesUsecase(Params(1, FilterState.open, SortOption.created));
       // assert
       expect(result, Right(issuesList));
-      verify(mockGithubRepository.getIssues());
+      verify(mockGithubRepository.getIssues(1, FilterState.open, SortOption.created));
       verifyNoMoreInteractions(mockGithubRepository);
     },
   );
