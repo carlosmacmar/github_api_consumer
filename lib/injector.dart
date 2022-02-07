@@ -26,7 +26,6 @@ Future<void> init() async {
   // Repository
   injector.registerLazySingleton<GithubRepository>(
     () => GithubRepositoryImpl(
-      // localDataSource: injector(),
       remoteDataSource: injector(),
       networkInfo: injector(),
     ),
@@ -42,8 +41,8 @@ Future<void> init() async {
       .registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(injector()));
 
   //! External
-  final sharedPreferences = await SharedPreferences.getInstance();
-  injector.registerLazySingleton(() => sharedPreferences);
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  // injector.registerLazySingleton(() => sharedPreferences);
   injector.registerLazySingleton(() => http.Client());
   injector.registerLazySingleton(() => InternetConnectionChecker());
 }

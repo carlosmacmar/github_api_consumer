@@ -3,10 +3,7 @@ import 'package:github_api_consumer/features/github/domain/entities/user.dart';
 import 'package:meta/meta.dart';
 
 class Issue extends Equatable {
-  final String url;
-  final String htmlUrl;
   final int id;
-  final int number;
   final String title;
   final User user;
   final String state;
@@ -15,13 +12,10 @@ class Issue extends Equatable {
   final String updatedAt;
   final String closedAt;
   final String body;
-  bool visited;
+  final bool visited;
 
   Issue({
-    required this.url,
-    required this.htmlUrl,
     required this.id,
-    required this.number,
     required this.title,
     required this.user,
     required this.state,
@@ -35,10 +29,7 @@ class Issue extends Equatable {
 
   @override
   List<Object> get props => [
-        url,
-        htmlUrl,
         id,
-        number,
         title,
         user,
         state,

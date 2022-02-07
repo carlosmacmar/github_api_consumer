@@ -5,10 +5,7 @@ import 'user_model.dart';
 
 class IssueModel extends Issue {
   IssueModel({
-    required String url,
-    required String htmlUrl,
     required int id,
-    required int number,
     required String title,
     required UserModel? user,
     required String state,
@@ -18,10 +15,7 @@ class IssueModel extends Issue {
     required String closedAt,
     required String body,
   }) : super(
-          url: url,
-          htmlUrl: htmlUrl,
           id: id,
-          number: number,
           title: title,
           user: User(
               login: user?.login ?? '',
@@ -39,10 +33,7 @@ class IssueModel extends Issue {
 
   factory IssueModel.fromJson(Map<String, dynamic> json) {
     return IssueModel(
-      url: json['url'],
-      htmlUrl: json['html_url'],
       id: json['id'],
-      number: json['number'],
       title: json['title'],
       user: json['user'] != null ? new UserModel.fromJson(json['user']) : null,
       state: json['state'],
@@ -56,10 +47,7 @@ class IssueModel extends Issue {
 
   Map<String, dynamic> toJson() {
     return {
-      'url': url,
-      'html_url': htmlUrl,
       'id': id,
-      'number': number,
       'title': title,
       'user': user,
       'state': state,

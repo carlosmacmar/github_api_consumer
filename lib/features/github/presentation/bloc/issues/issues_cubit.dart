@@ -24,18 +24,19 @@ class IssuesCubit extends Cubit<IssuesState> {
 
   void getIssues() async {
     try {
-      if(state is IssuesLoading) return;
+      if (state is IssuesLoading) return;
 
       var oldIssuesList = <Issue>[];
-      if(_page == 1) _currentIssuesList.clear();
+      if (_page == 1) _currentIssuesList.clear();
 
       final currentState = state;
-      if(currentState is IssuesLoaded) {
+      if (currentState is IssuesLoaded) {
         oldIssuesList = currentState.issuesList;
       }
 
       emit(IssuesLoading(oldIssuesList, isFirstFetch: _page == 1));
-      final failureOrIssues = await getIssuesUseCase.call(Params(_page, _currentFilterState, _currentSortOption));
+      final failureOrIssues = await getIssuesUseCase
+          .call(Params(_page, _currentFilterState, _currentSortOption));
       failureOrIssues.fold(
         (failure) => emit(IssuesError(_mapFailureToMessage(failure))),
         (newIssues) {
@@ -43,11 +44,9 @@ class IssuesCubit extends Cubit<IssuesState> {
           final issues = (state as IssuesLoading).oldIssuesList;
           issues.addAll(newIssues);
           _visitedIssuesList.forEach((visitedIssue) {
-            issues.forEach((issue) {
-              if(issue.id == visitedIssue.id){
-                issue.visited = true;
-              }
-            });
+            final index = issues.indexWhere(
+                    (element) => element.id == visitedIssue.id);
+            if(index != -1) issues[index] = visitedIssue;
           });
           _currentIssuesList = issues;
           emit(IssuesLoaded(issues));
@@ -58,27 +57,36 @@ class IssuesCubit extends Cubit<IssuesState> {
     }
   }
 
-  void updateFilter(FilterState filterState){
+  void updateFilter(FilterState filterState) {
     _currentFilterState = filterState;
     _page = 1;
     emit(IssuesInitial());
     getIssues();
   }
 
-  void updateSortOption(SortOption sortOption){
+  void updateSortOption(SortOption sortOption) {
     _currentSortOption = sortOption;
     _page = 1;
     emit(IssuesInitial());
     getIssues();
   }
 
-  void setVisited(Issue issue){
-    _currentIssuesList.forEach((element) {
-      if(element.id == issue.id) {
-        element.visited = true;
-        _visitedIssuesList.add(element);
-      }
-    });
+  void setVisited(Issue issue) {
+    final visitedIssue = Issue(
+        id: issue.id,
+        title: issue.title,
+        user: issue.user,
+        state: issue.state,
+        comments: issue.comments,
+        createdAt: issue.createdAt,
+        updatedAt: issue.updatedAt,
+        closedAt: issue.closedAt,
+        body: issue.body,
+        visited: true);
+    _visitedIssuesList.add(visitedIssue);
+    final index = _currentIssuesList.indexWhere(
+            (element) => element.id == visitedIssue.id);
+    if(index != -1) _currentIssuesList[index] = visitedIssue;
     emit(IssuesInitial());
     emit(IssuesLoaded(_currentIssuesList));
   }

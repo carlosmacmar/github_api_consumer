@@ -32,5 +32,5 @@ class Params extends Equatable {
   );
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [page, filterState, sortOption];
 }
