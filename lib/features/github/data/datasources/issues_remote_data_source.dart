@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exceptions.dart';
 
-abstract class GithubRemoteDataSource {
+abstract class IssuesRemoteDataSource {
   /// Calls the https://api.github.com/ endpoint.
   ///
   /// Throws a [ServerException] for all error codes.
@@ -15,10 +15,10 @@ abstract class GithubRemoteDataSource {
       int page, FilterState filterState, SortOption sortOption);
 }
 
-class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
+class IssuesRemoteDataSourceImpl implements IssuesRemoteDataSource {
   final http.Client client;
 
-  GithubRemoteDataSourceImpl({required this.client});
+  IssuesRemoteDataSourceImpl({required this.client});
 
   @override
   Future<List<IssueModel>> getIssues(

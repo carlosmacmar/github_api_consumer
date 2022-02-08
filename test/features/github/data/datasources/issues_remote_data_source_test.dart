@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:github_api_consumer/core/error/exceptions.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
-import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
+import 'package:github_api_consumer/features/github/data/datasources/issues_remote_data_source.dart';
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,12 +11,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../fixtures/fixture_reader.dart';
-import 'github_remote_data_source_test.mocks.dart';
+import 'issues_remote_data_source_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
   final mockHttpClient = MockClient();
-  final dataSource = GithubRemoteDataSourceImpl(client: mockHttpClient);
+  final dataSource = IssuesRemoteDataSourceImpl(client: mockHttpClient);
 
   void setUpMockHttpClientSuccess200() {
     when(mockHttpClient.get(

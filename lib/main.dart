@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_api_consumer/features/github/presentation/bloc/issues/issues_cubit.dart';
 import 'package:github_api_consumer/features/github/presentation/pages/display_issues_screen.dart';
-import 'features/github/domain/usecases/get_all_issues.dart';
+import 'features/github/domain/usecases/get_issues.dart';
 import 'injector.dart' as di;
 
 void main() {

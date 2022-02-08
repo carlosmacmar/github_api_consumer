@@ -3,13 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
-import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
+import 'package:github_api_consumer/features/github/domain/repositories/issues_repository.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 
 class GetIssues implements UseCase<List<Issue>, Params> {
-  final GithubRepository repository;
+  final IssuesRepository repository;
 
   GetIssues(this.repository);
 

@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
-import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
+import 'package:github_api_consumer/features/github/data/datasources/issues_remote_data_source.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
-import 'package:github_api_consumer/features/github/domain/repositories/github_repository.dart';
+import 'package:github_api_consumer/features/github/domain/repositories/issues_repository.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
 
-class GithubRepositoryImpl implements GithubRepository {
-  final GithubRemoteDataSource remoteDataSource;
-  // final GithubLocalDataSource localDataSource;
+class IssuesRepositoryImpl implements IssuesRepository {
+  final IssuesRemoteDataSource remoteDataSource;
+  // final IssuesLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  GithubRepositoryImpl({
+  IssuesRepositoryImpl({
     required this.remoteDataSource,
     // @required this.localDataSource,
     required this.networkInfo,

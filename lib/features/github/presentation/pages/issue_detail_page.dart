@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
 
 class IssueDetailPage extends StatelessWidget {

@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:github_api_consumer/core/error/failures.dart';
-import 'package:github_api_consumer/core/usecases/usecase.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
 import 'package:github_api_consumer/features/github/domain/entities/issue.dart';
-import 'package:github_api_consumer/features/github/domain/usecases/get_all_issues.dart';
+import 'package:github_api_consumer/features/github/domain/usecases/get_issues.dart';
 
 part 'issues_state.dart';
 
@@ -15,12 +12,12 @@ const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 class IssuesCubit extends Cubit<IssuesState> {
   IssuesCubit({required this.getIssuesUseCase}) : super(IssuesInitial());
 
+  final GetIssues getIssuesUseCase;
   int _page = 1;
   var _visitedIssuesList = <Issue>[];
   var _currentIssuesList = <Issue>[];
   FilterState _currentFilterState = FilterState.open;
   SortOption _currentSortOption = SortOption.created;
-  final GetIssues getIssuesUseCase;
 
   void getIssues() async {
     try {

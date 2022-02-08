@@ -5,22 +5,22 @@ import 'package:github_api_consumer/core/error/exceptions.dart';
 import 'package:github_api_consumer/core/error/failures.dart';
 import 'package:github_api_consumer/core/network/network_info.dart';
 import 'package:github_api_consumer/core/util/enums.dart';
-import 'package:github_api_consumer/features/github/data/datasources/github_remote_data_source.dart';
+import 'package:github_api_consumer/features/github/data/datasources/issues_remote_data_source.dart';
 import 'package:github_api_consumer/features/github/data/models/issue_model.dart';
-import 'package:github_api_consumer/features/github/data/repositories/github_repository_impl.dart';
+import 'package:github_api_consumer/features/github/data/repositories/issues_repository_impl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
-import 'github_repository_impl_test.mocks.dart';
+import 'issues_repository_impl_test.mocks.dart';
 
-@GenerateMocks([NetworkInfo, GithubRemoteDataSource])
+@GenerateMocks([NetworkInfo, IssuesRemoteDataSource])
 void main() {
   MockNetworkInfo mockNetworkInfo = MockNetworkInfo();
-  MockGithubRemoteDataSource mockRemoteDataSource =
-      MockGithubRemoteDataSource();
-  GithubRepositoryImpl repository = GithubRepositoryImpl(
+  MockIssuesRemoteDataSource mockRemoteDataSource =
+      MockIssuesRemoteDataSource();
+  IssuesRepositoryImpl repository = IssuesRepositoryImpl(
       remoteDataSource: mockRemoteDataSource, networkInfo: mockNetworkInfo);
 
   void runTestsOnline(Function body) {
